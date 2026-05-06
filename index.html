@@ -34,7 +34,6 @@ header{
     margin:20px 0;
 }
 
-/* BOTÕES */
 .btn{
     display:flex;
     align-items:center;
@@ -52,16 +51,13 @@ header{
     font-size:16px;
 }
 
-.btn:hover{
-    transform:scale(1.05);
-}
+.btn:hover{ transform:scale(1.05); }
 
 .btn img{
     width:38px;
     border-radius:10px;
 }
 
-/* MAPA */
 #mapa{
     display:none;
     padding:20px;
@@ -78,7 +74,6 @@ header{
     border-radius:12px;
 }
 
-/* JOGAR */
 .play-btn{
     width:100%;
     margin-top:12px;
@@ -90,14 +85,8 @@ header{
     font-size:18px;
     font-weight:bold;
     cursor:pointer;
-    transition:.2s;
 }
 
-.play-btn:hover{
-    transform:scale(1.03);
-}
-
-/* LIKE */
 .like-box{
     display:flex;
     align-items:center;
@@ -105,12 +94,8 @@ header{
     margin-top:15px;
 }
 
-.like{
-    font-size:38px;
-    cursor:pointer;
-}
+.like{ font-size:38px; cursor:pointer; }
 
-/* COMENTÁRIOS */
 .comments{
     max-height:220px;
     overflow-y:auto;
@@ -132,7 +117,6 @@ header{
     margin-bottom:5px;
 }
 
-/* INPUT */
 .comment-box{
     display:flex;
     gap:10px;
@@ -156,7 +140,6 @@ header{
     cursor:pointer;
 }
 
-/* VOLTAR */
 .back-btn{
     margin-top:15px;
     padding:12px 20px;
@@ -166,15 +149,63 @@ header{
     color:white;
     cursor:pointer;
 }
+
+/* LOGIN */
+#loginScreen{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:linear-gradient(135deg,#FFD700,#FF7A00);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+.login-box{
+text-align:center;
+background:rgba(0,0,0,0.35);
+padding:30px;
+border-radius:20px;
+backdrop-filter:blur(10px);
+width:85%;
+max-width:360px;
+}
+
+.login-box button{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
+background:#5865F2;
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
 </style>
 </head>
 
 <body>
 
-<!-- SOM -->
-<audio id="clickSound">
-<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b7c36.mp3">
-</audio>
+<!-- LOGIN -->
+<div id="loginScreen">
+<div class="login-box">
+
+<h2>Faça o login obrigatório 💛</h2>
+<p>Para desfrutar do nosso site</p>
+
+<button onclick="loginDiscord()">
+<img src="https://i.imgur.com/XOcyLx9.png" style="width:24px;">
+Entrar com Discord
+</button>
+
+</div>
+</div>
 
 <!-- INICIO -->
 <div id="inicio">
@@ -188,12 +219,7 @@ header{
 Nossos mapas
 </button>
 
-<button class="btn" onclick="abrirLink('https://discord.com/oauth2/authorize?client_id=1496192471657480333')">
-<img src="https://i.imgur.com/XOcyLx9.png">
-Adicionar bot
-</button>
-
-<button class="btn" onclick="abrirLink('https://discord.gg/pF3jHTbSSF')">
+<button class="btn" onclick="window.open('https://discord.gg/pF3jHTbSSF')">
 <img src="https://i.imgur.com/hzPUF93.png">
 Discord
 </button>
@@ -209,10 +235,7 @@ Discord
 
 <img src="https://i.imgur.com/SmLDgQw.png">
 
-<button class="play-btn"
-onclick="abrirLink('https://c.freefiremobile.com/?m=126712A51Z0')">
-JOGUE AGORA! 🔥
-</button>
+<button class="play-btn">JOGUE AGORA! 🔥</button>
 
 <div class="like-box">
 <span id="likeBtn" class="like">🤍</span>
@@ -228,42 +251,7 @@ JOGUE AGORA! 🔥
 
 </div>
 
-<button class="back-btn" onclick="voltar()">
-Voltar
-</button>
-
-</div>
-
-<!-- ⚙️ ADMIN -->
-<div id="adminBtn" style="
-display:none;
-position:fixed;
-top:15px;
-right:15px;
-font-size:32px;
-cursor:pointer;
-z-index:999;
-">
-⚙️
-</div>
-
-<div id="logsPanel" style="
-display:none;
-position:fixed;
-top:60px;
-right:10px;
-width:320px;
-height:500px;
-overflow-y:auto;
-background:rgba(0,0,0,0.9);
-border-radius:15px;
-padding:10px;
-z-index:999;
-">
-
-<h2>Logs</h2>
-
-<div id="logsContainer"></div>
+<button class="back-btn" onclick="voltar()">Voltar</button>
 
 </div>
 
@@ -272,170 +260,87 @@ z-index:999;
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyCrsTQooML2ukLzLT6zwKvnhjohG9DJA0c",
-  authDomain: "cb-site-11bdf.firebaseapp.com",
-  projectId: "cb-site-11bdf",
-  storageBucket: "cb-site-11bdf.firebasestorage.app",
-  messagingSenderId: "944676301147",
-  appId: "1:944676301147:web:cbd07e9916fde4aba4d27e"
-};
+firebase.initializeApp({
+apiKey:"AIzaSyCrsTQooML2ukLzLT6zwKvnhjohG9DJA0c",
+authDomain:"cb-site-11bdf.firebaseapp.com",
+projectId:"cb-site-11bdf"
+});
 
-firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/* SOM */
-function playSound(){
-document.getElementById("clickSound").play();
+/* DISCORD LOGIN */
+const CLIENT_ID = "1496192471657480333";
+const REDIRECT = window.location.origin + window.location.pathname;
+
+let currentUser = null;
+
+function loginDiscord(){
+window.location.href =
+`https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${encodeURIComponent(REDIRECT)}&scope=identify`;
 }
 
-/* ADMIN */
-if(location.hash === "#admin"){
-adminBtn.style.display = "block";
+async function getUser(token){
+const res = await fetch("https://discord.com/api/users/@me",{
+headers:{Authorization:`Bearer ${token}`}
+});
+return await res.json();
 }
 
-adminBtn.onclick = ()=>{
-logsPanel.style.display =
-logsPanel.style.display == "block"
-? "none"
-: "block";
+async function init(){
+
+const hash = window.location.hash;
+
+if(hash.includes("access_token")){
+const token = new URLSearchParams(hash.replace("#","")).get("access_token");
+const user = await getUser(token);
+
+currentUser = {
+name:user.global_name||user.username,
+avatar:`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
 };
 
-/* REGISTRAR ACESSO */
-async function registrarAcesso(){
+localStorage.setItem("dc_user",JSON.stringify(currentUser));
+}
 
-try{
+const saved = localStorage.getItem("dc_user");
 
-let res = await fetch("https://ipapi.co/json/");
-let data = await res.json();
-
-const info = {
-ip: data.ip,
-cidade: data.city,
-pais: data.country_name,
-dispositivo: navigator.userAgent,
-tela: screen.width + "x" + screen.height,
-idioma: navigator.language,
-horario: Date.now()
-};
-
-db.collection("logs").add(info);
-
-}catch(e){
-console.log(e);
+if(saved){
+currentUser = JSON.parse(saved);
+loginScreen.style.display="none";
+inicio.style.display="block";
+}else{
+loginScreen.style.display="flex";
+inicio.style.display="none";
 }
 
 }
 
-registrarAcesso();
-
-/* CARREGAR LOGS */
-function carregarLogs(){
-
-db.collection("logs")
-.orderBy("horario","desc")
-.onSnapshot(snap=>{
-
-logsContainer.innerHTML = "";
-
-snap.forEach(doc=>{
-
-let d = doc.data();
-
-logsContainer.innerHTML += `
-<div style="
-background:rgba(255,255,255,0.1);
-padding:10px;
-border-radius:15px;
-margin-bottom:10px;
-text-align:left;
-">
-
-<b>IP:</b><br>
-${d.ip}<br><br>
-
-<b>CIDADE:</b><br>
-${d.cidade}, ${d.pais}<br><br>
-
-<b>DISPOSITIVO:</b><br>
-${d.dispositivo}<br><br>
-
-<b>TELA:</b><br>
-${d.tela}<br><br>
-
-<b>IDIOMA:</b><br>
-${d.idioma}<br><br>
-
-<b>HORÁRIO:</b><br>
-${new Date(d.horario).toLocaleString()}
-
-</div>
-`;
-
-});
-
-});
-
-}
-
-carregarLogs();
-
-/* LIKE */
-const likeRef = db.collection("site").doc("likes");
-
-likeRef.onSnapshot(doc=>{
-
-if(doc.exists){
-likeCount.innerText = doc.data().count || 0;
-}
-
-});
-
-likeBtn.onclick = async ()=>{
-
-playSound();
-
-if(localStorage.getItem("liked")) return;
-
-let doc = await likeRef.get();
-let count = doc.exists ? doc.data().count : 0;
-
-likeRef.set({count: count + 1});
-
-localStorage.setItem("liked",true);
-
-likeBtn.textContent = "❤️";
-
-};
+init();
 
 /* COMENTÁRIOS */
 const commentRef = db.collection("comments");
 
 function loadComments(){
 
-commentRef
-.orderBy("time","desc")
-.onSnapshot(snap=>{
+commentRef.orderBy("time","desc").onSnapshot(snap=>{
 
-comments.innerHTML = "";
+comments.innerHTML="";
 
 snap.forEach(doc=>{
+let c=doc.data();
 
-let c = doc.data();
-
-comments.innerHTML += `
+comments.innerHTML+=`
 <div class="comment">
 
 <div class="user">
-<span style="font-size:30px;">👤</span>
-<b>Desconhecido</b>
+<img src="${c.avatar}" style="width:32px;height:32px;border-radius:50%;">
+<b>${c.name}</b>
 </div>
 
 <p>${c.text}</p>
 
 </div>
 `;
-
 });
 
 });
@@ -444,41 +349,32 @@ comments.innerHTML += `
 
 function addComment(){
 
-playSound();
-
 let text = comentario.value;
-
 if(!text) return;
 
 commentRef.add({
 text:text,
-time:Date.now()
+time:Date.now(),
+name:currentUser?.name,
+avatar:currentUser?.avatar
 });
 
-comentario.value = "";
-
+comentario.value="";
 }
 
 loadComments();
 
-/* PAGINAS */
+/* NAV */
 function abrirMapa(){
-playSound();
-inicio.style.display = "none";
-mapa.style.display = "block";
+inicio.style.display="none";
+mapa.style.display="block";
 }
 
 function voltar(){
-playSound();
-mapa.style.display = "none";
-inicio.style.display = "block";
-}
-
-function abrirLink(url){
-playSound();
-window.open(url,"_blank");
+mapa.style.display="none";
+inicio.style.display="block";
 }
 </script>
 
 </body>
-</html>
+    </html>
