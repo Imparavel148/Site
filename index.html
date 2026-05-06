@@ -22,15 +22,6 @@ body {
     100% {background-position: 0%}
 }
 
-.fade {
-    animation: fade 0.4s ease;
-}
-
-@keyframes fade {
-    from {opacity:0; transform: translateY(10px);}
-    to {opacity:1;}
-}
-
 header {
     padding: 20px;
     font-size: 30px;
@@ -59,9 +50,7 @@ header {
     transition: 0.2s;
 }
 
-.btn:hover {
-    transform: scale(1.05);
-}
+.btn:hover { transform: scale(1.05); }
 
 .btn img {
     width: 35px;
@@ -81,18 +70,37 @@ header {
     border-radius: 10px;
 }
 
+/* BOTÃO JOGAR BONITO */
 .play-btn {
-    background: #00bfff;
+    background: linear-gradient(135deg, #00bfff, #007bff);
     margin-top: 10px;
-    padding: 12px;
-    border-radius: 10px;
+    padding: 14px;
+    border-radius: 12px;
     border:none;
     color:white;
+    font-weight: bold;
+    cursor:pointer;
+    transition: 0.2s;
+}
+
+.play-btn:hover {
+    transform: scale(1.05);
+}
+
+/* LIKE */
+.like-box {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:10px;
+}
+
+.like {
+    font-size:32px;
     cursor:pointer;
 }
 
-.like { font-size:28px; cursor:pointer; }
-
+/* COMENTÁRIOS */
 .comments {
     max-height:200px;
     overflow-y:auto;
@@ -108,24 +116,43 @@ header {
 
 .user {
     display:flex;
+    align-items:center;
     gap:10px;
 }
 
-.user img {
-    width:40px;
-    border-radius:50%;
+/* INPUT BONITO */
+.comment-box {
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+}
+
+.comment-box input {
+    flex:1;
+    padding:10px;
+    border-radius:10px;
+    border:none;
+}
+
+.comment-box button {
+    padding:10px 15px;
+    border-radius:10px;
+    border:none;
+    background:#00bfff;
+    color:white;
+    cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🔊 SOM -->
-<audio id="bgMusic" loop>
-<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+<!-- 🔊 SOM CURTO -->
+<audio id="clickSound">
+<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b7c36.mp3">
 </audio>
 
-<div id="inicio" class="fade">
+<div id="inicio">
 <header>CB 💛</header>
 
 <img class="main-img" src="https://i.imgur.com/hzPUF93.png">
@@ -147,7 +174,7 @@ Discord
 
 </div>
 
-<div id="mapa" class="fade">
+<div id="mapa">
 
 <h2>CÉU AZUL ☁️</h2>
 
@@ -156,15 +183,17 @@ Discord
 
 <button class="play-btn">Jogar 🎮</button>
 
-<div>
+<div class="like-box">
 <span id="likeBtn" class="like">🤍</span>
 <span id="likeCount">0</span>
 </div>
 
 <div id="comments" class="comments"></div>
 
-<input id="comentario">
+<div class="comment-box">
+<input id="comentario" placeholder="Escreva algo...">
 <button onclick="addComment()">Enviar</button>
+</div>
 
 </div>
 
@@ -186,11 +215,11 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 /* SOM */
-document.body.addEventListener("click",()=>{
-document.getElementById("bgMusic").play();
-},{once:true});
+function playSound(){
+document.getElementById("clickSound").play();
+}
 
-/* LIKE ANTI-SPAM */
+/* LIKE */
 const likeRef = db.collection("site").doc("likes");
 
 likeRef.onSnapshot(doc=>{
@@ -200,7 +229,9 @@ likeCount.innerText = doc.data().count || 0;
 });
 
 likeBtn.onclick = async ()=>{
-if(localStorage.getItem("liked")) return alert("Você já deu like");
+playSound();
+
+if(localStorage.getItem("liked")) return;
 
 let doc = await likeRef.get();
 let count = doc.exists ? doc.data().count : 0;
@@ -210,7 +241,7 @@ localStorage.setItem("liked",true);
 likeBtn.textContent="❤️";
 };
 
-/* COMENTÁRIOS ANTI-SPAM */
+/* COMENTÁRIOS */
 const commentRef = db.collection("comments");
 
 function loadComments(){
@@ -221,7 +252,7 @@ let c = doc.data();
 comments.innerHTML += `
 <div class="comment">
 <div class="user">
-<img src="https://i.imgur.com/8Km9tLL.png">
+<span style="font-size:30px;">👤</span>
 <b>Desconhecido</b>
 </div>
 <p>${c.text}</p>
@@ -231,44 +262,34 @@ comments.innerHTML += `
 }
 
 function addComment(){
-let text = comentario.value;
+playSound();
 
+let text = comentario.value;
 if(!text) return;
 
-let now = Date.now();
-let last = JSON.parse(localStorage.getItem("times")||"[]");
-
-// limpa antigos
-last = last.filter(t=> now - t < 3600000);
-
-if(last.length >= 3){
-alert("Limite de 3 comentários por hora");
-return;
-}
-
-last.push(now);
-localStorage.setItem("times",JSON.stringify(last));
-
-commentRef.add({text:text, time:now});
+commentRef.add({text:text, time:Date.now()});
 comentario.value="";
 }
 
 loadComments();
 
 function abrirMapa(){
+playSound();
 inicio.style.display="none";
 mapa.style.display="block";
 }
 
 function voltar(){
+playSound();
 mapa.style.display="none";
 inicio.style.display="block";
 }
 
 function abrirLink(url){
+playSound();
 window.open(url,"_blank");
 }
 </script>
 
 </body>
-    </html>
+</html>
