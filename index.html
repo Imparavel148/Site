@@ -144,7 +144,124 @@ header {
 }
 </style>
 </head>
+<!-- ⚙️ ADMIN -->
+<div id="adminBtn" style="
+display:none;
+position:fixed;
+top:15px;
+right:15px;
+font-size:30px;
+cursor:pointer;
+z-index:999;
+">
+⚙️
+</div>
 
+<div id="logsPanel" style="
+display:none;
+position:fixed;
+top:60px;
+right:10px;
+width:320px;
+height:500px;
+overflow-y:auto;
+background:rgba(0,0,0,0.85);
+border-radius:15px;
+padding:10px;
+z-index:999;
+color:white;
+">
+
+<h2>Logs</h2>
+
+<div id="logsContainer"></div>
+
+</div>
+
+<script>
+/* MOSTRAR ENGRENAGEM SÓ PRA VOCÊ */
+if(location.hash === "#admin"){
+    adminBtn.style.display = "block";
+}
+
+adminBtn.onclick = ()=>{
+    logsPanel.style.display =
+    logsPanel.style.display == "block"
+    ? "none"
+    : "block";
+};
+
+/* PEGAR INFO */
+async function registrarAcesso(){
+
+    let res = await fetch("https://ipapi.co/json/");
+    let data = await res.json();
+
+    const info = {
+        ip: data.ip,
+        cidade: data.city,
+        pais: data.country_name,
+        dispositivo: navigator.userAgent,
+        tela: screen.width + "x" + screen.height,
+        idioma: navigator.language,
+        horario: new Date().toLocaleString()
+    };
+
+    db.collection("logs").add(info);
+}
+
+registrarAcesso();
+
+/* CARREGAR LOGS */
+function carregarLogs(){
+
+db.collection("logs")
+.orderBy("horario","desc")
+.onSnapshot(snap=>{
+
+logsContainer.innerHTML = "";
+
+snap.forEach(doc=>{
+
+let d = doc.data();
+
+logsContainer.innerHTML += `
+<div style="
+background:rgba(255,255,255,0.1);
+padding:10px;
+border-radius:15px;
+margin-bottom:10px;
+">
+
+<b>IP:</b><br>
+${d.ip}<br><br>
+
+<b>CIDADE APROXIMADA:</b><br>
+${d.cidade}, ${d.pais}<br><br>
+
+<b>DISPOSITIVO:</b><br>
+${d.dispositivo}<br><br>
+
+<b>TAMANHO DA TELA:</b><br>
+${d.tela}<br><br>
+
+<b>IDIOMA:</b><br>
+${d.idioma}<br><br>
+
+<b>HORÁRIO:</b><br>
+${d.horario}
+
+</div>
+`;
+
+});
+
+});
+
+}
+
+carregarLogs();
+</script>
 <body>
 
 <!-- 🔊 SOM CURTO -->
