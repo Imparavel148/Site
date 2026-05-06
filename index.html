@@ -10,8 +10,25 @@ body {
     margin: 0;
     font-family: Arial;
     background: linear-gradient(135deg, #00c9ff, #00ffa6);
+    background-size: 200% 200%;
+    animation: bg 8s ease infinite;
     color: white;
     text-align: center;
+}
+
+@keyframes bg {
+    0% {background-position: 0%}
+    50% {background-position: 100%}
+    100% {background-position: 0%}
+}
+
+.fade {
+    animation: fade 0.4s ease;
+}
+
+@keyframes fade {
+    from {opacity:0; transform: translateY(10px);}
+    to {opacity:1;}
 }
 
 header {
@@ -20,196 +37,238 @@ header {
     font-weight: bold;
 }
 
-/* BOTÕES COM IMAGEM */
-.btn-img {
-    position: relative;
+.main-img {
+    width: 150px;
+    border-radius: 20px;
+    margin: 20px 0;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    gap: 15px;
     margin: 15px auto;
+    padding: 15px;
     width: 80%;
-    max-width: 300px;
-    border-radius: 15px;
-    overflow: hidden;
+    max-width: 320px;
+    border-radius: 12px;
+    border: none;
+    background: rgba(0,0,0,0.6);
+    color: white;
     cursor: pointer;
+    transition: 0.2s;
 }
 
-.btn-img img {
-    width: 100%;
+.btn:hover {
+    transform: scale(1.05);
 }
 
-.btn-img span {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    font-weight: bold;
+.btn img {
+    width: 35px;
+    border-radius: 8px;
 }
 
-/* MAPA */
-#mapa {
-    display: none;
-    padding: 20px;
-}
+#mapa { display:none; padding:20px; }
 
 .card {
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.6);
     border-radius: 15px;
     padding: 15px;
 }
 
-/* LIKE */
-.like {
-    font-size: 30px;
-    cursor: pointer;
+.card img {
+    width: 100%;
+    border-radius: 10px;
 }
 
-/* COMENTÁRIOS */
+.play-btn {
+    background: #00bfff;
+    margin-top: 10px;
+    padding: 12px;
+    border-radius: 10px;
+    border:none;
+    color:white;
+    cursor:pointer;
+}
+
+.like { font-size:28px; cursor:pointer; }
+
 .comments {
-    max-height: 200px;
-    overflow-y: scroll;
-    text-align: left;
+    max-height:200px;
+    overflow-y:auto;
+    text-align:left;
 }
 
 .comment {
     background: rgba(0,0,0,0.5);
-    margin: 10px;
-    padding: 10px;
-    border-radius: 10px;
+    margin:10px;
+    padding:10px;
+    border-radius:10px;
 }
 
 .user {
-    display: flex;
-    gap: 10px;
+    display:flex;
+    gap:10px;
 }
 
 .user img {
-    width: 40px;
-    border-radius: 50%;
+    width:40px;
+    border-radius:50%;
 }
 </style>
 </head>
 
 <body>
 
-<div id="inicio">
-    <header>CB 💛</header>
+<!-- 🔊 SOM -->
+<audio id="bgMusic" loop>
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+</audio>
 
-    <div class="btn-img" onclick="abrirMapa()">
-        <img src="https://i.imgur.com/XOcyLx9.png">
-        <span>Nossos mapas</span>
-    </div>
+<div id="inicio" class="fade">
+<header>CB 💛</header>
 
-    <div class="btn-img" onclick="abrirLink('https://discord.com/oauth2/authorize?client_id=1496192471657480333')">
-        <img src="https://i.imgur.com/hzPUF93.png">
-        <span>Adicionar bot</span>
-    </div>
+<img class="main-img" src="https://i.imgur.com/hzPUF93.png">
 
-    <div class="btn-img" onclick="abrirLink('https://discord.gg/pF3jHTbSSF')">
-        <img src="https://i.imgur.com/axmvC0n.png">
-        <span>Discord</span>
-    </div>
-</div>
+<button class="btn" onclick="abrirMapa()">
+<img src="https://i.imgur.com/XOcyLx9.png">
+Nossos mapas
+</button>
 
-<div id="mapa">
+<button class="btn" onclick="abrirLink('https://discord.com/oauth2/authorize?client_id=1496192471657480333')">
+<img src="https://i.imgur.com/hzPUF93.png">
+Adicionar bot
+</button>
 
-    <h2 style="color:#b0faff;">CÉU AZUL ☁️</h2>
-
-    <div class="card">
-        <img src="https://i.imgur.com/SmLDgQw.png">
-
-        <div>
-            <span id="likeBtn" class="like">🤍</span>
-            <span id="likeCount">0</span>
-        </div>
-
-        <div class="comments" id="comments"></div>
-
-        <input id="comentario" placeholder="Comentário...">
-        <button onclick="addComment()">Enviar</button>
-    </div>
-
-    <button onclick="voltar()">Voltar</button>
+<button class="btn" onclick="abrirLink('https://discord.gg/pF3jHTbSSF')">
+<img src="https://i.imgur.com/axmvC0n.png">
+Discord
+</button>
 
 </div>
 
-<!-- FIREBASE -->
+<div id="mapa" class="fade">
+
+<h2>CÉU AZUL ☁️</h2>
+
+<div class="card">
+<img src="https://i.imgur.com/SmLDgQw.png">
+
+<button class="play-btn">Jogar 🎮</button>
+
+<div>
+<span id="likeBtn" class="like">🤍</span>
+<span id="likeCount">0</span>
+</div>
+
+<div id="comments" class="comments"></div>
+
+<input id="comentario">
+<button onclick="addComment()">Enviar</button>
+
+</div>
+
+<button onclick="voltar()">Voltar</button>
+
+</div>
+
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <script>
 const firebaseConfig = {
-  apiKey: "AIzaSyCrsTQooML2ukLzLT6zwKvnhjohG9DJA0c",
+  apiKey: "AIzaSy...",
   authDomain: "cb-site-11bdf.firebaseapp.com",
-  projectId: "cb-site-11bdf",
-  storageBucket: "cb-site-11bdf.firebasestorage.app",
-  messagingSenderId: "944676301147",
-  appId: "1:944676301147:web:cbd07e9916fde4aba4d27e"
+  projectId: "cb-site-11bdf"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/* LIKE GLOBAL */
+/* SOM */
+document.body.addEventListener("click",()=>{
+document.getElementById("bgMusic").play();
+},{once:true});
+
+/* LIKE ANTI-SPAM */
 const likeRef = db.collection("site").doc("likes");
 
-likeRef.onSnapshot(doc => {
-    if(doc.exists){
-        document.getElementById("likeCount").innerText = doc.data().count || 0;
-    }
+likeRef.onSnapshot(doc=>{
+if(doc.exists){
+likeCount.innerText = doc.data().count || 0;
+}
 });
 
-document.getElementById("likeBtn").onclick = async () => {
-    let doc = await likeRef.get();
-    let count = doc.exists ? doc.data().count : 0;
-    likeRef.set({count: count + 1});
+likeBtn.onclick = async ()=>{
+if(localStorage.getItem("liked")) return alert("Você já deu like");
+
+let doc = await likeRef.get();
+let count = doc.exists ? doc.data().count : 0;
+
+likeRef.set({count: count+1});
+localStorage.setItem("liked",true);
+likeBtn.textContent="❤️";
 };
 
-/* COMENTÁRIOS GLOBAL */
+/* COMENTÁRIOS ANTI-SPAM */
 const commentRef = db.collection("comments");
 
 function loadComments(){
-    commentRef.onSnapshot(snapshot => {
-        let box = document.getElementById("comments");
-        box.innerHTML = "";
-
-        snapshot.forEach(doc => {
-            let c = doc.data().text;
-
-            box.innerHTML += `
-            <div class="comment">
-                <div class="user">
-                    <img src="https://i.imgur.com/8Km9tLL.png">
-                    <b>Desconhecido</b>
-                </div>
-                <p>${c}</p>
-            </div>`;
-        });
-    });
+commentRef.orderBy("time","desc").onSnapshot(snap=>{
+comments.innerHTML="";
+snap.forEach(doc=>{
+let c = doc.data();
+comments.innerHTML += `
+<div class="comment">
+<div class="user">
+<img src="https://i.imgur.com/8Km9tLL.png">
+<b>Desconhecido</b>
+</div>
+<p>${c.text}</p>
+</div>`;
+});
+});
 }
 
 function addComment(){
-    let input = document.getElementById("comentario");
-    let text = input.value;
+let text = comentario.value;
 
-    if(text){
-        commentRef.add({ text: text });
-        input.value = "";
-    }
+if(!text) return;
+
+let now = Date.now();
+let last = JSON.parse(localStorage.getItem("times")||"[]");
+
+// limpa antigos
+last = last.filter(t=> now - t < 3600000);
+
+if(last.length >= 3){
+alert("Limite de 3 comentários por hora");
+return;
+}
+
+last.push(now);
+localStorage.setItem("times",JSON.stringify(last));
+
+commentRef.add({text:text, time:now});
+comentario.value="";
 }
 
 loadComments();
 
 function abrirMapa(){
-    document.getElementById("inicio").style.display = "none";
-    document.getElementById("mapa").style.display = "block";
+inicio.style.display="none";
+mapa.style.display="block";
 }
 
 function voltar(){
-    document.getElementById("mapa").style.display = "none";
-    document.getElementById("inicio").style.display = "block";
+mapa.style.display="none";
+inicio.style.display="block";
 }
 
 function abrirLink(url){
-    window.open(url, "_blank");
+window.open(url,"_blank");
 }
 </script>
 
 </body>
-</html>
+    </html>
