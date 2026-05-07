@@ -3,343 +3,180 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CB 💛 Dashboard</title>
+<title>#admin</title>
 
 <style>
-
-body{
-margin:0;
-font-family:Arial;
-color:white;
-background:linear-gradient(135deg,#ffcc00,#ff6a00,#00c9ff);
-background-size:300% 300%;
-animation:bg 10s ease infinite;
-text-align:center;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0e0f13;
+  color: white;
 }
 
-@keyframes bg{
-0%{background-position:0%}
-50%{background-position:100%}
-100%{background-position:0%}
+/* topo */
+.topbar {
+  background: #1a1b22;
+  padding: 14px 20px;
+  font-weight: bold;
+  font-size: 18px;
+  border-bottom: 1px solid #2a2b33;
 }
 
-/* LOGIN */
-#loginScreen{
-position:fixed;
-inset:0;
-display:flex;
-justify-content:center;
-align-items:center;
-background:linear-gradient(135deg,#FFD700,#FF7A00);
-z-index:9999;
+/* layout geral */
+.container {
+  display: flex;
+  height: calc(100vh - 50px);
 }
 
-.loginBox{
-background:rgba(0,0,0,0.35);
-padding:30px;
-border-radius:20px;
-width:85%;
-max-width:360px;
-backdrop-filter:blur(10px);
+/* sidebar estilo discord */
+.sidebar {
+  width: 75px;
+  background: #12131a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
+  gap: 12px;
+  border-right: 1px solid #22232b;
 }
 
-.loginBox button{
-width:100%;
-padding:14px;
-border:none;
-border-radius:14px;
-background:#5865F2;
-color:white;
-font-weight:bold;
-cursor:pointer;
+.icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: #2b2d36;
 }
 
-/* HEADER */
-header{
-padding:20px;
-font-size:32px;
-font-weight:bold;
+/* área principal */
+.main {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
 }
 
-/* BOTÕES */
-.btn{
-display:flex;
-align-items:center;
-justify-content:center;
-gap:10px;
-margin:10px auto;
-padding:14px;
-border:none;
-border-radius:14px;
-width:90%;
-max-width:320px;
-background:rgba(0,0,0,0.6);
-color:white;
-cursor:pointer;
-transition:.2s;
+/* destaque do canal */
+.banner {
+  background: linear-gradient(135deg, #ff7a00, #ffcc00);
+  color: black;
+  padding: 15px;
+  border-radius: 10px;
+  font-weight: bold;
+  margin-bottom: 15px;
 }
 
-.btn:hover{transform:scale(1.05);}
-
-.discordBtn{
-background:#5865F2;
+/* post */
+.post {
+  background: #1a1b22;
+  border: 1px solid #2a2b33;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
 }
 
-/* MAPA */
-#mapa{
-display:none;
-padding:20px;
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
-/* LOGS PANEL */
-#logsPanel{
-position:fixed;
-top:0;
-right:0;
-width:360px;
-height:100%;
-background:rgba(0,0,0,0.95);
-display:none;
-flex-direction:column;
-padding:15px;
-z-index:9999;
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #333;
 }
 
-.logItem{
-background:rgba(255,255,255,0.08);
-padding:10px;
-border-radius:12px;
-margin-bottom:10px;
-text-align:left;
+.username {
+  font-weight: bold;
+  color: #ffcc66;
 }
 
-.logHeader{
-display:flex;
-align-items:center;
-gap:10px;
-margin-bottom:5px;
+.post img.content {
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 10px;
 }
 
-.logHeader img{
-width:32px;
-height:32px;
-border-radius:50%;
+.actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 15px;
+  font-size: 13px;
+  color: #aaa;
 }
 
-.backBtn{
-margin-top:auto;
-padding:12px;
-border:none;
-border-radius:12px;
-background:#ff4444;
-color:white;
-cursor:pointer;
+.actions button {
+  background: none;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
 }
 
-.adminBtn{
-position:fixed;
-top:15px;
-right:15px;
-font-size:28px;
-cursor:pointer;
-z-index:999;
-display:none;
+.actions button:hover {
+  color: white;
 }
-
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
-<div id="loginScreen">
-<div class="loginBox">
-<h2>Faça login obrigatório 💛</h2>
-<p>Entre com Discord para continuar</p>
+<div class="topbar">#admin</div>
 
-<button onclick="loginDiscord()">
-Entrar com Discord
-</button>
-</div>
-</div>
+<div class="container">
 
-<!-- ADMIN -->
-<div id="adminBtn" class="adminBtn">⚙️</div>
+  <div class="sidebar">
+    <div class="icon"></div>
+    <div class="icon"></div>
+    <div class="icon"></div>
+  </div>
 
-<!-- HEADER -->
-<header>CB 💛</header>
+  <div class="main">
 
-<!-- HOME -->
-<div id="inicio">
+    <div class="banner">
+      📌 Canal administrativo ativo
+    </div>
 
-<button class="btn" onclick="abrirMapa()">📍 Nossos mapas</button>
+    <!-- POST PRINCIPAL (igual da imagem) -->
+    <div class="post">
 
-<button class="btn discordBtn"
-onclick="window.open('https://discord.com/oauth2/authorize?client_id=1496192471657480333&permissions=8&scope=bot%20applications.commands','_blank')">
-🤖 Adicionar bot
-</button>
+      <div class="post-header">
+        <div class="avatar"></div>
+        <div class="username">Admin</div>
+      </div>
 
-<button class="btn"
-onclick="window.open('https://discord.gg/pF3jHTbSSF')">
-💬 Discord
-</button>
+      <div>
+        Interface principal do sistema #admin
+      </div>
 
-</div>
+      <img class="content" src="https://i.imgur.com/GtsSqgS.png">
 
-<!-- MAPA -->
-<div id="mapa">
+      <div class="actions">
+        <button>👍 Curtir</button>
+        <button>💬 Comentar</button>
+        <button>↗ Compartilhar</button>
+      </div>
 
-<h2>CÉU AZUL ☁️</h2>
+    </div>
 
-<div class="btn discordBtn">JOGAR AGORA 🔥</div>
+    <!-- outro post -->
+    <div class="post">
+      <div class="post-header">
+        <div class="avatar"></div>
+        <div class="username">Sistema</div>
+      </div>
 
-<button class="btn" onclick="voltar()">Voltar</button>
+      Funcionamento ativo e estável.
 
-</div>
+      <div class="actions">
+        <button>👍 Curtir</button>
+        <button>💬 Comentar</button>
+      </div>
+    </div>
 
-<!-- LOGS -->
-<div id="logsPanel">
-
-<h2>📜 LOGS</h2>
-
-<div id="logsContainer" style="overflow-y:auto;height:100%;"></div>
-
-<button class="backBtn" onclick="fecharLogs()">Voltar</button>
-
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
-<script>
-
-firebase.initializeApp({
-apiKey:"AIzaSyCrsTQooML2ukLzLT6zwKvnhjohG9DJA0c",
-authDomain:"cb-site-11bdf.firebaseapp.com",
-projectId:"cb-site-11bdf"
-});
-
-const db=firebase.firestore();
-
-/* LOGIN DISCORD */
-const CLIENT_ID="1496192471657480333";
-const REDIRECT=window.location.origin+window.location.pathname;
-
-let currentUser=null;
-
-function loginDiscord(){
-window.location.href=
-`https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${encodeURIComponent(REDIRECT)}&scope=identify`;
-}
-
-async function getUser(token){
-const res=await fetch("https://discord.com/api/users/@me",{
-headers:{Authorization:`Bearer ${token}`}
-});
-return res.json();
-}
-
-async function init(){
-
-const hash=window.location.hash;
-
-if(hash.includes("access_token")){
-const token=new URLSearchParams(hash.replace("#","")).get("access_token");
-const user=await getUser(token);
-
-currentUser={
-name:user.global_name||user.username,
-avatar:`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
-};
-
-localStorage.setItem("dc_user",JSON.stringify(currentUser));
-}
-
-if(localStorage.getItem("dc_user")){
-currentUser=JSON.parse(localStorage.getItem("dc_user"));
-loginScreen.style.display="none";
-}else{
-loginScreen.style.display="flex";
-}
-
-/* ADMIN MODE */
-const isAdmin = location.hash === "#admin";
-
-if(isAdmin){
-document.getElementById("adminBtn").style.display="block";
-}
-
-adminBtn.onclick=()=>{
-
-if(!isAdmin){
-alert("Acesso negado");
-return;
-}
-
-logsPanel.style.display="flex";
-carregarLogs();
-
-};
-
-/* GARANTE START CORRETO */
-document.getElementById("inicio").style.display="block";
-document.getElementById("mapa").style.display="none";
-
-}
-
-init();
-
-/* MAPA FUNCIONANDO */
-function abrirMapa(){
-document.getElementById("inicio").style.display="none";
-document.getElementById("mapa").style.display="block";
-window.scrollTo(0,0);
-}
-
-function voltar(){
-document.getElementById("mapa").style.display="none";
-document.getElementById("inicio").style.display="block";
-window.scrollTo(0,0);
-}
-
-/* LOGS */
-function fecharLogs(){
-logsPanel.style.display="none";
-}
-
-function carregarLogs(){
-
-db.collection("logs")
-.orderBy("horario","desc")
-.onSnapshot(snap=>{
-
-logsContainer.innerHTML="";
-
-snap.forEach(doc=>{
-let d=doc.data();
-
-logsContainer.innerHTML+=`
-<div class="logItem">
-
-<div class="logHeader">
-<img src="${d.avatar||''}">
-<b>${d.name||"Desconhecido"}</b>
-</div>
-
-📡 ${d.ip||""}<br>
-🌎 ${d.cidade||""}, ${d.pais||""}<br>
-💻 ${d.dispositivo||""}<br>
-🕒 ${new Date(d.horario).toLocaleString()}
+  </div>
 
 </div>
-`;
-});
-
-});
-
-}
-
-</script>
 
 </body>
 </html>
