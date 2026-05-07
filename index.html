@@ -3,180 +3,399 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>#admin</title>
+<title>CB 💛 Pro</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0e0f13;
-  color: white;
+
+body{
+margin:0;
+font-family:Arial;
+color:white;
+background:linear-gradient(135deg,#ff7a00,#ffcc00);
+overflow-x:hidden;
 }
 
-/* topo */
-.topbar {
-  background: #1a1b22;
-  padding: 14px 20px;
-  font-weight: bold;
-  font-size: 18px;
-  border-bottom: 1px solid #2a2b33;
+/* FUNDO ANIMADO */
+.bgGlow{
+position:fixed;
+inset:0;
+background:radial-gradient(circle at top,#ffffff20,transparent);
+pointer-events:none;
 }
 
-/* layout geral */
-.container {
-  display: flex;
-  height: calc(100vh - 50px);
+/* LOGIN */
+#loginScreen{
+position:fixed;
+inset:0;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#ffcc00,#ff7a00);
+z-index:9999;
 }
 
-/* sidebar estilo discord */
-.sidebar {
-  width: 75px;
-  background: #12131a;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 10px;
-  gap: 12px;
-  border-right: 1px solid #22232b;
+.loginBox{
+background:rgba(0,0,0,0.35);
+padding:30px;
+border-radius:20px;
+width:85%;
+max-width:360px;
+text-align:center;
+backdrop-filter:blur(10px);
 }
 
-.icon {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  background: #2b2d36;
+.loginBox button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
+background:#5865F2;
+color:white;
+font-weight:bold;
+cursor:pointer;
 }
 
-/* área principal */
-.main {
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
+/* HEADER */
+header{
+padding:20px;
+font-size:30px;
+font-weight:bold;
 }
 
-/* destaque do canal */
-.banner {
-  background: linear-gradient(135deg, #ff7a00, #ffcc00);
-  color: black;
-  padding: 15px;
-  border-radius: 10px;
-  font-weight: bold;
-  margin-bottom: 15px;
+/* DASH */
+.container{
+padding:15px;
 }
 
-/* post */
-.post {
-  background: #1a1b22;
-  border: 1px solid #2a2b33;
-  border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 15px;
+/* BOTÕES */
+.btn{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+margin:10px auto;
+padding:14px;
+border:none;
+border-radius:14px;
+width:90%;
+max-width:320px;
+background:rgba(0,0,0,0.55);
+color:white;
+cursor:pointer;
+transition:.2s;
 }
 
-.post-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
+.btn:hover{transform:scale(1.05);}
+
+.discord{
+background:#5865F2;
 }
 
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #333;
+/* MAPA */
+#mapa{
+display:none;
+padding:10px;
 }
 
-.username {
-  font-weight: bold;
-  color: #ffcc66;
+/* CARD */
+.card{
+background:rgba(0,0,0,0.4);
+padding:15px;
+border-radius:18px;
+max-width:500px;
+margin:auto;
 }
 
-.post img.content {
-  width: 100%;
-  border-radius: 10px;
-  margin-top: 10px;
+/* IMAGEM CAINDO */
+.fallImg{
+position:fixed;
+top:-150px;
+left:50%;
+width:120px;
+transform:translateX(-50%);
+animation:fall 6s infinite linear;
+opacity:0.8;
+pointer-events:none;
 }
 
-.actions {
-  margin-top: 10px;
-  display: flex;
-  gap: 15px;
-  font-size: 13px;
-  color: #aaa;
+@keyframes fall{
+0%{transform:translate(-50%,-200px) rotate(0deg);}
+100%{transform:translate(-50%,120vh) rotate(360deg);}
 }
 
-.actions button {
-  background: none;
-  border: none;
-  color: #aaa;
-  cursor: pointer;
+/* LIKE */
+.like{
+font-size:34px;
+cursor:pointer;
 }
 
-.actions button:hover {
-  color: white;
+/* COMENTÁRIOS */
+.comments{
+max-height:200px;
+overflow-y:auto;
+text-align:left;
+margin-top:10px;
 }
+
+.comment{
+background:rgba(255,255,255,0.1);
+padding:10px;
+border-radius:12px;
+margin-bottom:8px;
+}
+
+.user{
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.user img{
+width:28px;
+height:28px;
+border-radius:50%;
+}
+
+/* INPUT */
+.inputBox{
+display:flex;
+gap:8px;
+margin-top:10px;
+}
+
+.inputBox input{
+flex:1;
+border:none;
+padding:10px;
+border-radius:10px;
+outline:none;
+}
+
+.inputBox button{
+border:none;
+background:#00bfff;
+color:white;
+padding:10px;
+border-radius:10px;
+cursor:pointer;
+}
+
+/* LOGS */
+#logsPanel{
+position:fixed;
+top:0;
+right:0;
+width:340px;
+height:100%;
+background:rgba(0,0,0,0.95);
+display:none;
+flex-direction:column;
+padding:10px;
+z-index:9999;
+}
+
+.log{
+background:rgba(255,255,255,0.08);
+padding:10px;
+border-radius:10px;
+margin-bottom:10px;
+}
+
+.adminBtn{
+position:fixed;
+top:10px;
+right:10px;
+font-size:28px;
+display:none;
+cursor:pointer;
+}
+
+.backBtn{
+margin-top:auto;
+padding:10px;
+border:none;
+background:red;
+color:white;
+border-radius:10px;
+cursor:pointer;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="topbar">#admin</div>
+<div class="bgGlow"></div>
 
-<div class="container">
+<!-- LOGIN -->
+<div id="loginScreen">
+<div class="loginBox">
+<h2>Entrar no CB 💛</h2>
+<p>Login obrigatório Discord</p>
+<button onclick="loginDiscord()">Entrar com Discord</button>
+</div>
+</div>
 
-  <div class="sidebar">
-    <div class="icon"></div>
-    <div class="icon"></div>
-    <div class="icon"></div>
-  </div>
+<!-- ADMIN -->
+<div id="adminBtn" class="adminBtn">⚙️</div>
 
-  <div class="main">
+<!-- HEADER -->
+<header>CB 💛</header>
 
-    <div class="banner">
-      📌 Canal administrativo ativo
-    </div>
+<!-- HOME -->
+<div id="inicio" class="container">
 
-    <!-- POST PRINCIPAL (igual da imagem) -->
-    <div class="post">
+<button class="btn" onclick="abrirMapa()">📍 Mapas</button>
 
-      <div class="post-header">
-        <div class="avatar"></div>
-        <div class="username">Admin</div>
-      </div>
+<button class="btn discord"
+onclick="window.open('https://discord.com/oauth2/authorize?client_id=1496192471657480333&permissions=8&scope=bot','_blank')">
+🤖 Adicionar Bot
+</button>
 
-      <div>
-        Interface principal do sistema #admin
-      </div>
-
-      <img class="content" src="https://i.imgur.com/GtsSqgS.png">
-
-      <div class="actions">
-        <button>👍 Curtir</button>
-        <button>💬 Comentar</button>
-        <button>↗ Compartilhar</button>
-      </div>
-
-    </div>
-
-    <!-- outro post -->
-    <div class="post">
-      <div class="post-header">
-        <div class="avatar"></div>
-        <div class="username">Sistema</div>
-      </div>
-
-      Funcionamento ativo e estável.
-
-      <div class="actions">
-        <button>👍 Curtir</button>
-        <button>💬 Comentar</button>
-      </div>
-    </div>
-
-  </div>
+<button class="btn"
+onclick="window.open('https://discord.gg/pF3jHTbSSF')">
+💬 Discord
+</button>
 
 </div>
 
+<!-- MAPA -->
+<div id="mapa">
+
+<div class="card">
+
+<h2>CÉU AZUL ☁️</h2>
+
+<img src="https://i.imgur.com/SmLDgQw.png" style="width:100%;border-radius:12px">
+
+<div style="margin-top:10px;">
+<span id="like" class="like">🤍</span>
+<span id="count">0</span>
+</div>
+
+<div class="comments" id="comments"></div>
+
+<div class="inputBox">
+<input id="text" placeholder="Escreva...">
+<button onclick="send()">Enviar</button>
+</div>
+
+</div>
+
+<button class="btn" onclick="voltar()">Voltar</button>
+
+</div>
+
+<!-- LOGS -->
+<div id="logsPanel">
+
+<h2>📜 LOGS</h2>
+<div id="logs"></div>
+
+<button class="backBtn" onclick="closeLogs()">Voltar</button>
+
+</div>
+
+<!-- IMAGEM CAINDO -->
+<img class="fallImg" src="https://i.imgur.com/hzPUF93.png">
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<script>
+
+firebase.initializeApp({
+apiKey:"xxx",
+authDomain:"xxx",
+projectId:"xxx"
+});
+
+const db=firebase.firestore();
+
+/* LOGIN */
+let user=null;
+
+function loginDiscord(){
+window.location.href="https://discord.com/oauth2/authorize?...";
+}
+
+function abrirMapa(){
+inicio.style.display="none";
+mapa.style.display="block";
+}
+
+function voltar(){
+mapa.style.display="none";
+inicio.style.display="block";
+}
+
+/* ADMIN */
+const isAdmin = location.hash==="#admin";
+
+if(isAdmin){
+adminBtn.style.display="block";
+}
+
+adminBtn.onclick=()=>{
+if(!isAdmin) return alert("Sem acesso");
+logsPanel.style.display="flex";
+loadLogs();
+};
+
+function closeLogs(){
+logsPanel.style.display="none";
+}
+
+/* COMMENTS */
+function send(){
+let t=text.value;
+if(!t)return;
+
+db.collection("comments").add({
+text:t,
+name:user?.name||"Anon",
+avatar:user?.avatar||""
+});
+
+text.value="";
+}
+
+function loadComments(){
+db.collection("comments").onSnapshot(s=>{
+comments.innerHTML="";
+s.forEach(d=>{
+let c=d.data();
+comments.innerHTML+=`
+<div class="comment">
+<div class="user">
+<img src="${c.avatar}">
+<b>${c.name}</b>
+</div>
+${c.text}
+</div>`;
+});
+});
+}
+
+loadComments();
+
+/* LOGS */
+function loadLogs(){
+db.collection("logs").onSnapshot(s=>{
+logs.innerHTML="";
+s.forEach(d=>{
+let l=d.data();
+logs.innerHTML+=`
+<div class="log">
+<b>${l.name}</b><br>
+${l.ip||""}<br>
+${new Date(l.time).toLocaleString()}
+</div>`;
+});
+});
+}
+
+</script>
+
 </body>
-</html>
+  </html>
